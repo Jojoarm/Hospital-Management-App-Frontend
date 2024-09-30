@@ -10,7 +10,6 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        // primary: '#5f6FFF',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -52,6 +51,9 @@ export default {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+      },
+      gridTemplateColumns: {
+        auto: 'repeat(auto-fill, minmax(200px, 1fr))',
       },
     },
   },
