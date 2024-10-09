@@ -63,6 +63,26 @@ const MyAppointments = () => {
     }
   };
 
+  const makePayment = async (appointmentId) => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/user/payment`,
+        { appointmentId },
+        { headers: { token, 'Content-Type': 'application/json' } }
+      );
+      if (data.success) {
+        window.location.href = data?.url;
+        getUserAppointments();
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       getUserAppointments();
@@ -104,9 +124,17 @@ const MyAppointments = () => {
             </div>
             <div></div>
             <div className="flex flex-col gap-2 justify-end">
-              {!item.cancelled && (
-                <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300">
+              {!item.cancelled && !item.payment && (
+                <button
+                  onClick={() => makePayment(item._id)}
+                  className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
+                >
                   Pay Online
+                </button>
+              )}
+              {!item.cancelled && item.payment && (
+                <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green-500">
+                  Appointment Booked
                 </button>
               )}
 
